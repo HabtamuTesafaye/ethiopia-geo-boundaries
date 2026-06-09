@@ -1,6 +1,6 @@
 {
   "name": "ethiopia-geo-boundaries",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Offline GeoJSON administrative boundaries for Ethiopia (ADM0-ADM3) + region/zone hierarchy with PCodes. Vue 3 / Nuxt 3 component included.",
   "main": "src/index.js",
   "module": "src/index.esm.js",
