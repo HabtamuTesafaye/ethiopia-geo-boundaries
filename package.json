@@ -1,0 +1,48 @@
+{
+  "name": "ethiopia-geo-boundaries",
+  "version": "2.0.1",
+  "description": "Offline GeoJSON administrative boundaries for Ethiopia (ADM0-ADM3) + region/zone hierarchy with PCodes. Vue 3 / Nuxt 3 component included.",
+  "main": "src/index.js",
+  "module": "src/index.esm.js",
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./src/index.js",
+      "import": "./src/index.esm.js",
+      "types": "./src/index.d.ts"
+    },
+    "./vue": {
+      "import": "./vue/index.js",
+      "default": "./vue/index.js"
+    },
+    "./data/*": "./data/*"
+  },
+  "files": [
+    "src/",
+    "data/",
+    "vue/",
+    "scripts/"
+  ],
+  "keywords": [
+    "ethiopia",
+    "geojson",
+    "boundaries",
+    "maps",
+    "administrative",
+    "offline",
+    "vue",
+    "nuxt",
+    "choropleth"
+  ],
+  "license": "ODC-PDDL-1.0",
+  "sideEffects": false,
+  "peerDependencies": {
+    "d3": ">=7",
+    "vue": ">=3"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": true
+    }
+  }
+}
