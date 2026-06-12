@@ -1,48 +1,63 @@
 {
   "name": "ethiopia-geo-boundaries",
-  "version": "2.0.4",
-  "description": "Offline GeoJSON administrative boundaries for Ethiopia (ADM0-ADM3) + region/zone hierarchy with PCodes. Vue 3 / Nuxt 3 component included.",
-  "main": "src/index.js",
-  "module": "src/index.esm.js",
-  "types": "src/index.d.ts",
+  "version": "3.0.0",
+  "description": "Vanilla SVG generator for Ethiopian administrative boundaries (ADM1-ADM3). Zero runtime dependencies.",
+  "type": "module",
   "exports": {
     ".": {
-      "require": "./src/index.js",
-      "import": "./src/index.esm.js",
-      "types": "./src/index.d.ts"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
-    "./vue": {
-      "import": "./vue/index.js",
-      "default": "./vue/index.js"
+    "./adm1": {
+      "import": "./dist/adm1.js",
+      "require": "./dist/adm1.cjs",
+      "types": "./dist/adm1.d.ts",
+      "default": "./dist/adm1.js"
     },
-    "./data/*": "./data/*"
+    "./adm2": {
+      "import": "./dist/adm2.js",
+      "require": "./dist/adm2.cjs",
+      "types": "./dist/adm2.d.ts",
+      "default": "./dist/adm2.js"
+    },
+    "./adm3": {
+      "import": "./dist/adm3.js",
+      "require": "./dist/adm3.cjs",
+      "types": "./dist/adm3.d.ts",
+      "default": "./dist/adm3.js"
+    }
   },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "src/",
-    "data/",
-    "vue/",
-    "scripts/"
+    "dist"
   ],
+  "scripts": {
+    "prebuild": "tsx scripts/build-svg-paths.ts",
+    "build": "tsup",
+    "prepublishOnly": "npm run build"
+  },
   "keywords": [
     "ethiopia",
     "geojson",
     "boundaries",
-    "maps",
-    "administrative",
-    "offline",
-    "vue",
-    "nuxt",
-    "choropleth"
+    "svg",
+    "map"
   ],
   "license": "ODC-PDDL-1.0",
-  "sideEffects": false,
-  "peerDependencies": {
-    "d3": ">=7",
-    "vue": ">=3"
-  },
-  "peerDependenciesMeta": {
-    "vue": {
-      "optional": true
-    }
+  "devDependencies": {
+    "@turf/helpers": "^7.3.5",
+    "@turf/union": "^7.3.5",
+    "@types/d3-geo": "^3.0.0",
+    "@types/node": "^20.0.0",
+    "d3-geo": "^3.1.0",
+    "topojson-client": "^3.1.0",
+    "topojson-server": "^3.0.1",
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
   }
 }
