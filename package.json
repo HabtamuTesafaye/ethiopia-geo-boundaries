@@ -5,27 +5,27 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
     "./adm1": {
+      "types": "./dist/adm1.d.ts",
       "import": "./dist/adm1.js",
       "require": "./dist/adm1.cjs",
-      "types": "./dist/adm1.d.ts",
       "default": "./dist/adm1.js"
     },
     "./adm2": {
+      "types": "./dist/adm2.d.ts",
       "import": "./dist/adm2.js",
       "require": "./dist/adm2.cjs",
-      "types": "./dist/adm2.d.ts",
       "default": "./dist/adm2.js"
     },
     "./adm3": {
+      "types": "./dist/adm3.d.ts",
       "import": "./dist/adm3.js",
       "require": "./dist/adm3.cjs",
-      "types": "./dist/adm3.d.ts",
       "default": "./dist/adm3.js"
     }
   },
