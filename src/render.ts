@@ -89,7 +89,33 @@ export function renderEthiopiaMap(
   const vbWidth = width + (padX * 2);
   const vbHeight = height + (padY * 2);
 
+  let legendElement = '';
+  if (options.showLegend) {
+    const labels = options.legendLabels || ['Low', 'High'];
+    const legendW = vbWidth * 0.25; // 25% of width
+    const legendH = Math.max(vbHeight * 0.015, 12); // At least 12px
+    const swatchW = legendW / colors.length;
+    
+    // Position bottom left with padding
+    const lx = vbMinX + padX * 1.5;
+    const ly = vbMinY + vbHeight - padY - legendH;
+    
+    const swatches = colors.map((color, i) => {
+      return `    <rect x="${lx + (i * swatchW)}" y="${ly}" width="${swatchW + 0.5}" height="${legendH}" fill="${color}" stroke="none" />`;
+    }).join('\n');
+
+    const fontSize = Math.max(vbHeight * 0.018, 14); // At least 14px
+    
+    legendElement = `
+  <g class="${escapeHtml(classPrefix)}-legend">
+${swatches}
+    <text x="${lx}" y="${ly - fontSize * 0.6}" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="${fontSize}px" font-weight="600">${escapeHtml(labels[0])}</text>
+    <text x="${lx + legendW}" y="${ly - fontSize * 0.6}" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="${fontSize}px" font-weight="600" text-anchor="end">${escapeHtml(labels[1])}</text>
+  </g>`;
+  }
+
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vbMinX} ${vbMinY} ${vbWidth} ${vbHeight}" width="100%" height="100%">
 ${pathElements}
+${legendElement}
 </svg>`;
 }

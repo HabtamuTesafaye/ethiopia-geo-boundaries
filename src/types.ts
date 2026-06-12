@@ -13,4 +13,8 @@ export interface MapOptions {
   /** Stroke color. Defaults to '#ffffff' */
   stroke?: string;
   strokeWidth?: number;
+  /** Whether to render a legend inside the SVG. Defaults to false */
+  showLegend?: boolean;
+  /** Labels for the legend [low, high]. Defaults to ['Low', 'High'] */
+  legendLabels?: [string, string];
 }
