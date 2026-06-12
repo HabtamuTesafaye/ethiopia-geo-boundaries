@@ -1,6 +1,6 @@
 {
   "name": "ethiopia-geo-boundaries",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Vanilla SVG generator for Ethiopian administrative boundaries (ADM1-ADM3). Zero runtime dependencies.",
   "type": "module",
   "exports": {
