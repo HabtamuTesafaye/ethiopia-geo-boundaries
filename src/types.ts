@@ -5,6 +5,8 @@ export type ColorPalette = 'blue' | 'green' | 'orange' | 'red' | 'purple';
 export interface MapOptions {
   /** Map region/zone/woreda names to numeric values (for choropleth coloring) */
   values?: Record<string, number>;
+  /** Explicit hex colors for each region/zone/woreda P-Code. Overrides 'values' and 'palette' if provided. */
+  colors?: Record<string, string>;
   palette?: ColorPalette;
   /** SVG canvas size. Defaults to 800 */
   size?: number;

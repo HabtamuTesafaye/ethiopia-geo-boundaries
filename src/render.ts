@@ -67,7 +67,13 @@ export function renderEthiopiaMap(
         }
       }
 
-      const fill = getColor(values[name], min, max, colors);
+      let fill = '#e5e7eb';
+      if (options.colors && options.colors[name]) {
+        fill = options.colors[name];
+      } else if (values && values[name] !== undefined) {
+        fill = getColor(values[name], min, max, colors);
+      }
+      
       const safeName = escapeHtml(name.toLowerCase().replace(/[^a-z0-9]+/g, '-'));
       const safeDataName = escapeHtml(name);
       return `  <path class="${escapeHtml(classPrefix)}-${safeName}" data-name="${safeDataName}" d="${d}" fill="${fill}" stroke="${escapeHtml(stroke)}" stroke-width="${strokeWidth}" vector-effect="non-scaling-stroke" />`;
