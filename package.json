@@ -47,7 +47,7 @@
     "svg",
     "map"
   ],
-  "license": "ODC-PDDL-1.0",
+  "license": "PDDL-1.0",
   "devDependencies": {
     "@turf/helpers": "^7.3.5",
     "@turf/union": "^7.3.5",
