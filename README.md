@@ -5,13 +5,16 @@
 > Features: Interactive drill-down (Region -> Zone -> Woreda), highly accessible, and handles contested borders cleanly.
 
 ### 🌍 Region Level
-![Region Map Demo](https://raw.githubusercontent.com/HabtamuTesafaye/ethiopia-geo-boundaries/main/assets/demo.png)
+![Region Map Demo](https://raw.githubusercontent.com/HabtamuTesafaye/ethiopia-geo-boundaries/main/assets/v2/demo_1.png)
 
 ### 📍 Zone Level
-![Zone Map Demo](https://raw.githubusercontent.com/HabtamuTesafaye/ethiopia-geo-boundaries/main/assets/demo2.png)
+![Zone Map Demo](https://raw.githubusercontent.com/HabtamuTesafaye/ethiopia-geo-boundaries/main/assets/v2/demo_2.png)
 
 ### 🏠 Woreda Level
-![Woreda Map Demo](https://raw.githubusercontent.com/HabtamuTesafaye/ethiopia-geo-boundaries/main/assets/demo3.png)
+![Woreda Map Demo](https://raw.githubusercontent.com/HabtamuTesafaye/ethiopia-geo-boundaries/main/assets/v2/demo_3.png)
+
+### 🏠 Zone Level As a whole
+![Woreda Map Demo](https://raw.githubusercontent.com/HabtamuTesafaye/ethiopia-geo-boundaries/main/assets/v2/demo_4.png)
 
 ## Install
 
@@ -21,9 +24,11 @@ npm install ethiopia-geo-boundaries d3
 
 ---
 
-## 🌟 Example Usage App
-Check out the full example Nuxt application that uses this package here:  
-**[HabtamuTesafaye/map_et](https://github.com/HabtamuTesafaye/map_et)**
+## 🌟 Live Demo & Example App
+
+**Live Demo:** [map-et.vercel.app](https://map-et.vercel.app/)
+
+**Example App Repo:** [HabtamuTesafaye/map_et](https://github.com/HabtamuTesafaye/map_et/tree/main)
 
 ---
 
@@ -41,127 +46,70 @@ Check out the full example Nuxt application that uses this package here:
 
 ---
 
-## Nuxt 3 Setup
+## Usage
+
+### Install
 
 ```bash
-# nuxt.config.ts — no special config needed
-# Just install and import
+npm install ethiopia-geo-boundaries d3
 ```
 
-```vue
-<!-- pages/map.vue -->
-<template>
-  <ClientOnly>
-    <EthiopiaMap
-      :data="regionData"
-      color-mode="data"
-      :color-range="['#fff7ec', '#7f0000']"
-      legend-title="Population"
-      :value-format="(v) => v.toLocaleString()"
-      @feature-click="onRegionClick"
-    />
-  </ClientOnly>
-</template>
+### SVG Paths (ADM1–ADM3)
 
-<script setup>
-import { EthiopiaMap } from 'ethiopia-geo-boundaries/vue'
-import { listRegions } from 'ethiopia-geo-boundaries'
+Import pre-built SVG path strings keyed by P-code:
 
-// Your backend data — keyed by P-code (ET01, ET04, etc.)
-const regionData = {
-  'ET04': 40884000,   // Oromia population
-  'ET03': 30216000,   // Amhara population
-  'ET01': 7070000,    // Tigray population
-  'ET05': 6657000,    // Somali population
-  // ...etc, from your database
-}
-
-function onRegionClick(feature, dataEntry) {
-  console.log(feature.properties.name, dataEntry)
-}
-</script>
-```
-
----
-
-## Matching YOUR database data to P-codes
-
-Your database has region/zone names or codes — use `matchRegion()` / `matchZone()` to link them:
-
-```js
-import { matchRegion, matchZone, getRegion } from 'ethiopia-geo-boundaries'
-
-// Works with English name, Amharic name, ISO code, or P-code
-matchRegion('Oromia')     // → { pcode: 'ET04', name: 'Oromia', ... }
-matchRegion('ኦሮሚያ')       // → same result
-matchRegion('ET-OR')      // → same result
-matchRegion('ET04')       // → same result
-
-matchZone('Jimma')        // → { pcode: 'ET0410', region_pcode: 'ET04', ... }
-
-// Then build your data map:
-const myRows = await db.query('SELECT region_name, value FROM stats')
-const mapData = Object.fromEntries(
-  myRows.map(row => {
-    const region = matchRegion(row.region_name)
-    return region ? [region.pcode, row.value] : null
-  }).filter(Boolean)
-)
-```
-
----
-
-## API Reference
-
-```js
+```ts
+import { adm1Paths, adm1PathsNames } from 'ethiopia-geo-boundaries/adm1'
 import {
-  getBoundaries,    // (0|1) → GeoJSON FeatureCollection
-  getRegion,        // (pcode) → Region object
-  getZone,          // (pcode) → Zone object
-  getZoneRegion,    // (zonePcode) → parent Region
-  listRegions,      // () → RegionSummary[]
-  listZones,        // () → ZoneFlat[]
-  getRegionZones,   // (regionPcode) → Zone[]
-  matchRegion,      // (nameOrCode) → Region | null
-  matchZone,        // (nameOrCode) → ZoneFlat | null
-} from 'ethiopia-geo-boundaries'
+  adm2Paths, adm2PathsParents, adm2PathsNames,
+} from 'ethiopia-geo-boundaries/adm2'
+import {
+  adm3Paths, adm3PathsParents, adm3PathsNames,
+} from 'ethiopia-geo-boundaries/adm3'
 ```
 
-## Map Component Props
+- `adm1Paths` / `adm2Paths` / `adm3Paths` — `Record<string, string>` of P-code → SVG `d` attribute
+- `adm1PathsNames` / `adm2PathsNames` / `adm3PathsNames` — `Record<string, string>` of P-code → human-readable name
+- `adm2PathsParents` / `adm3PathsParents` — `Record<string, string>` of child P-code → parent name
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `data` | `{ [pcode]: number \| { value, color } }` | `{}` | Your data keyed by P-code |
-| `level` | `0 \| 1 \| 2 \| 3` | `1` | Admin level to display (Country, Region, Zone, Woreda) |
-| `customGeojson` | `GeoJSON` | `null` | Override with zone/woreda GeoJSON |
-| `colorMode` | `'palette' \| 'data' \| 'custom'` | `'palette'` | How to color features |
-| `colorRange` | `[string, string]` | red scale | Sequential color range |
-| `palette` | `string[]` | built-in | Categorical colors |
-| `activeRegion` | `string` | `null` | P-code of region to highlight |
-| `showControls` | `boolean` | `true` | Show level switcher |
-| `showLegend` | `boolean` | `true` | Show color legend |
-| `showSidebarValues` | `boolean` | `false` | Show data values next to regions in sidebar list |
-| `pcodeField` | `string` | auto-detect | GeoJSON property key for P-code |
-| `valueFormat` | `(v) => string` | `toLocaleString` | Format tooltip values |
+### Render SVG string
 
-## Events
+```ts
+import { renderEthiopiaMap } from 'ethiopia-geo-boundaries'
 
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `@feature-click` | `(feature, dataEntry)` | User clicked a region |
-| `@feature-hover` | `(feature \| null, dataEntry \| null)` | Hover start/end |
-| `@update:level` | `number` | Level switcher changed |
+const svg = renderEthiopiaMap(adm1Paths, {
+  colors: { ET04: '#ff0000', ET03: '#00ff00' },
+  size: 700,
+  stroke: '#1e293b',
+  strokeWidth: 1.2,
+})
+```
 
-## Slots
+Then render with `v-html` (Vue) or `innerHTML` (vanilla JS).
 
-```vue
-<!-- Custom tooltip -->
-<EthiopiaMap ...>
-  <template #tooltip="{ feature, value }">
-    <strong>{{ feature.properties.name }}</strong>
-    <br/>Cases: {{ value }}
-  </template>
-</EthiopiaMap>
+### Map Options (`MapOptions`)
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `values` | `Record<string, number>` | `{}` | Numeric data keyed by P-code for choropleth |
+| `colors` | `Record<string, string>` | `{}` | Explicit hex colors per P-code (overrides `values` + `palette`) |
+| `palette` | `'blue' \| 'green' \| 'orange' \| 'red' \| 'purple'` | `'blue'` | Color palette for choropleth |
+| `size` | `number` | `800` | SVG canvas size |
+| `classPrefix` | `string` | `'eth-geo'` | CSS class prefix for path elements |
+| `stroke` | `string` | `'#ffffff'` | Stroke color |
+| `strokeWidth` | `number` | `0.5` | Stroke width |
+| `showLegend` | `boolean` | `false` | Render legend inside SVG |
+| `legendLabels` | `[string, string]` | `['Low', 'High']` | Legend labels |
+
+## Matching names to P-codes
+
+Use the names dictionaries to look up P-codes:
+
+```ts
+import { adm1PathsNames, adm2PathsNames } from 'ethiopia-geo-boundaries/adm1' // or /adm2
+
+// Find P-code for a name
+const pcode = Object.keys(adm1PathsNames).find(k => adm1PathsNames[k] === 'Oromia')
 ```
 
 ## Region P-codes
@@ -183,6 +131,4 @@ import {
 | ET15 | Dire Dawa | ድሬዳዋ | Dire Dawa |
 | ET16 | Sidama | ሲዳማ | Hawassa |
 
-## License
-Data: **Public Domain / ODC-PDDL-1.0** (Natural Earth)  
-Code: MIT
+
