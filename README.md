@@ -24,7 +24,7 @@ npm install ethiopia-geo-boundaries d3
 
 ---
 
-## 🌟 Live Demo & Example App
+##  Live Demo & Example App
 
 **Live Demo:** [map-et.vercel.app](https://map-et.vercel.app/)
 
