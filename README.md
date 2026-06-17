@@ -1,4 +1,4 @@
-# ethiopia-geo-boundaries v2
+# ethiopia-geo-boundaries
 
 > Fully offline administrative boundary data for Ethiopia.  
 > **Zero network calls · Works forever · Vue 3 / Nuxt 3 ready**
